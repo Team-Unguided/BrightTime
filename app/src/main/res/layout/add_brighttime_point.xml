@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePickerBrightness"
+        android:layout_gravity="center_horizontal|top" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="149dp"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBrightness"
+            android:layout_gravity="center" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/BrightnessText"
+            android:layout_gravity="center_horizontal|top"
+            android:text="Set Brightness Level" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:id="@+id/confirmAdd"
+            android:layout_gravity="center_horizontal|bottom" />
+    </FrameLayout>
+
+</FrameLayout>
