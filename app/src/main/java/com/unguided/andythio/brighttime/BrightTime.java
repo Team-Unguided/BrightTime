@@ -26,7 +26,7 @@ public class BrightTime extends Activity {
     private static final String alarmNames = "alrmnam";
 
     private Set<String> pointNames;
-    private List<int> pointTimes;
+    private List<String> pointTimes;
 
     /* TODO:
         * Listen for addbrightimepoint button
@@ -38,12 +38,22 @@ public class BrightTime extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        //loads Overlay
         setContentView(R.layout.bright_time);
+
+        //Gets stored information to load into ListView mPointList
         SharedPreferences settings = getPreferences(0);
+        //Specifially getting time from storage
         pointNames = settings.getStringSet(alarmNames, null);
-        for(Object e : pointNames){
-            pointTimes.add(settings.getInt(e,0));
+        for(Iterator<String> e = pointNames.iterator(); e.hasNext();){
+            String temp = e.next();
+            //possibly fix this one, use parse that is
+            pointTimes.add(settings.getString(temp, "-1"));
         }
+
+        //creates the adaptor...still not sure what it does
+        //FUTURE: need to change adaptor to support clicking? that way they can edit points
         ListView mPointList = (ListView) findViewById(R.id.pointlist);
         final TimeAdapter adapter = new TimeAdapter(this,
                 android.R.layout.simple_list_item_1, pointTimes);
@@ -54,23 +64,24 @@ public class BrightTime extends Activity {
     public void onResume(){
         //adds button for adding more points
         Button addPoint = (Button) findViewById(R.id.addbrighttimepoint);
-        addPoint.setOnClickListener(new View.OnClickListener()){
-            public void onClick(View v){
-                Intent addPointIntent = new Intent(this, addBrightPoint.class);
+        //Listens for button to be clicked then moves to add point screen
+        addPoint.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent addPointIntent = new Intent(BrightTime.this, addBrightPoint.class);
                 startActivity(addPointIntent);
             }
-        }
+        });
     }
 }
 
 
-    private class TimeAdapter extends ArrayAdapter<String> {
+    class TimeAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
 
         public TimeAdapter(Context context, int textViewResourceId,
-                                  List<int> objects) {
-            super(context, textViewResourceId, objects);
+                                  List<String> objects) {
+            super(context, textViewResourceId,objects);
             for (int i = 0; i < objects.size(); ++i) {
                 mIdMap.put(objects.get(i), i);
             }
