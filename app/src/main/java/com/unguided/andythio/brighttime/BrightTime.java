@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,8 +26,9 @@ public class BrightTime extends Activity {
 
     private static final String alarmNames = "alrmnam";
 
-    private Set<String> pointNames;
-    private List<String> pointTimes;
+    private Set<String> pointNames = Collections.emptySet();
+    private List<String> pointTimes = Collections.emptyList();
+    private Set<String> temp = Collections.emptySet();
 
     /* TODO:
         * Listen for addbrightimepoint button
@@ -45,7 +47,7 @@ public class BrightTime extends Activity {
         //Gets stored information to load into ListView mPointList
         SharedPreferences settings = getPreferences(0);
         //Specifically getting time from storage
-        pointNames = settings.getStringSet(alarmNames, null); //should not initialize to null due to iteration
+        pointNames = settings.getStringSet(alarmNames, temp); //should not initialize to null due to iteration
         if(pointNames.size() != 0) {
             for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
                 String temp = e.next();
