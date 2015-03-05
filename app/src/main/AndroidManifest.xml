@@ -1,8 +1,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionName="1.0"
+    android:versionCode="1"
     package="com.unguided.andythio.brighttime">
 
+    <uses-sdk android:maxSdkVersion="1" />
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- required only as a system app
+    <uses-permission android:name="android.permission.HARDWARE_TEST" /> -->
+
     <application android:allowBackup="true" android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme">
+        android:icon="@drawable/ic_launcher" >
+
+        <activity android:name=".BrightTime"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

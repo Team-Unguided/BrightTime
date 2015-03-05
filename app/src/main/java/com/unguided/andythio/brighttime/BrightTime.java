@@ -44,8 +44,8 @@ public class BrightTime extends Activity {
 
         //Gets stored information to load into ListView mPointList
         SharedPreferences settings = getPreferences(0);
-        //Specifially getting time from storage
-        pointNames = settings.getStringSet(alarmNames, null);
+        //Specifically getting time from storage
+        pointNames = settings.getStringSet(alarmNames, null); //should not initialize to null due to iteration
         for(Iterator<String> e = pointNames.iterator(); e.hasNext();){
             String temp = e.next();
             //possibly fix this one, use parse that is

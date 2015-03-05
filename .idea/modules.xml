@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BrightTime.iml" filepath="$PROJECT_DIR$/BrightTime.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unguided_packages_apps_brighttime.iml" filepath="$PROJECT_DIR$/unguided_packages_apps_brighttime.iml" />
     </modules>
   </component>
 </project>
