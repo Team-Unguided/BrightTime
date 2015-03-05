@@ -46,10 +46,12 @@ public class BrightTime extends Activity {
         SharedPreferences settings = getPreferences(0);
         //Specifically getting time from storage
         pointNames = settings.getStringSet(alarmNames, null); //should not initialize to null due to iteration
-        for(Iterator<String> e = pointNames.iterator(); e.hasNext();){
-            String temp = e.next();
-            //possibly fix this one, use parse that is
-            pointTimes.add(settings.getString(temp, "-1"));
+        if(pointNames.size() != 0) {
+            for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
+                String temp = e.next();
+                //possibly fix this one, use parse that is
+                pointTimes.add(settings.getString(temp, "-1"));
+            }
         }
 
         //creates the adaptor...still not sure what it does
