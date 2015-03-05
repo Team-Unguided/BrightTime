@@ -8,10 +8,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TimePicker;
+//import android.R;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -23,6 +25,7 @@ import java.util.Set;
 public class addBrightPoint extends Activity{
 
     private static final String alarmNames = "alrmnam";
+    private static final String TAG = "addBrightPoint";
     private Set<String> pointNames;
 
     private AlarmManager alarmgr;
@@ -34,26 +37,37 @@ public class addBrightPoint extends Activity{
     final int intmax = 255;
     int brightnessToBeSet = 0;
 
+    @Override
+    protected void onStop() {
+        Log.w(TAG, "App stopped");
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.w(TAG, "App destoryed");
+
+        super.onDestroy();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         //Loads the layout
         setContentView(R.layout.add_brighttime_point);
-    }
-
-    public void onResume(){
-        super.onResume();
-        //May need to move these things back to onCreate!!!
 
         //gets the seekbar
         SeekBar brightnessSeeker = (SeekBar) findViewById(R.id.seekBrightness);
-        brightnessSeeker.setMax(intmax);
+
 
         //gets TimePicker then sets it to 12 hours view
         final TimePicker brightnessTime = (TimePicker) findViewById(R.id.timePickerBrightness);
-        brightnessTime.setIs24HourView(false);
         final Button confirmAdd = (Button) findViewById(R.id.confirmAdd);
+
+        //temporary check
+        brightnessSeeker.setMax(intmax);
+        brightnessTime.setIs24HourView(false);
 
         //FUTURE: change to current brightness
         brightnessSeeker.setProgress(0);
@@ -82,7 +96,7 @@ public class addBrightPoint extends Activity{
             public void onClick(View v){
                 //set up the service from the other file that we made.
                 int selectedTime = (brightnessTime.getCurrentHour() * 60
-                                        + brightnessTime.getCurrentMinute()) *60*1000;
+                        + brightnessTime.getCurrentMinute()) *60*1000;
                 //store info in preference
                 //Need alarmNames, which can be stored as alarm id
                 //Time they are set to
@@ -117,10 +131,15 @@ public class addBrightPoint extends Activity{
                 editStorage.commit();
             }
         });
-
-
-        finish();
     }
+
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        //May need to move these things back to onCreate!!!
+//
+//        finish();
+//    }
 
     public void setBrightnessTimer(int userinputBrightness, int userinputTimeset, int alarmID){
         Intent brightnessIntent = new Intent(this, BrightTimeService.class);
