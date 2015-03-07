@@ -3,6 +3,7 @@ package com.unguided.andythio.brighttime;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -13,27 +14,34 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TimePicker;
+import android.widget.Toast;
 //import android.R;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
 /**
- * Created by Andy Thio on 3/2/2015.
+ * Andy Thio & Shawn Lee. Last edit 03/05/15
  */
+
 public class addBrightPoint extends Activity{
 
     private static final String alarmNames = "alrmnam";
     private static final String TAG = "addBrightPoint";
-    private Set<String> pointNames;
+    private Set<String> pointNames = Collections.emptySet();
+    private Set<String> _pointNames = Collections.emptySet();
+    private Set<String> temp = Collections.emptySet();
 
     private AlarmManager alarmgr;
     private int randomID;
     private String stringID;
 
+    private static Context mContext;
 
-    //seekbar max
+    //Seekbar objects
     final int intmax = 255;
     int brightnessToBeSet = 0;
 
@@ -44,22 +52,25 @@ public class addBrightPoint extends Activity{
         super.onStop();
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.w(TAG, "App destoryed");
-
-        super.onDestroy();
+    //Putting bread in the toaster
+    public static Context getContext() {
+        return mContext;
     }
 
+    //Toast text declaration
+    CharSequence text = "Point added!";
+    int duration = Toast.LENGTH_SHORT;
+
+    //TODO FIX: Needs to be fixed, causes app to crash after onCreate finishes
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
         //Loads the layout
         setContentView(R.layout.add_brighttime_point);
 
-        //gets the seekbar
+        //Loads the layout
         SeekBar brightnessSeeker = (SeekBar) findViewById(R.id.seekBrightness);
-
 
         //gets TimePicker then sets it to 12 hours view
         final TimePicker brightnessTime = (TimePicker) findViewById(R.id.timePickerBrightness);
@@ -80,9 +91,7 @@ public class addBrightPoint extends Activity{
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -91,7 +100,6 @@ public class addBrightPoint extends Activity{
             }
         });
 
-        //NOTE: might need to fix the second part. not sure what goes in there exactly
         confirmAdd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 //set up the service from the other file that we made.
@@ -102,7 +110,7 @@ public class addBrightPoint extends Activity{
                 //Time they are set to
                 //Brightness they are set to
                 SharedPreferences settings = getPreferences(0);
-                pointNames = settings.getStringSet(alarmNames, null);
+                pointNames = settings.getStringSet(alarmNames, temp);
 
                 //generate a random id so as not to overwrite links
                 String currID = null;
@@ -110,27 +118,56 @@ public class addBrightPoint extends Activity{
                 do {
                     randomID = rand.nextInt((999999 - 1) + 1) + 1;
                     stringID = Integer.toString(randomID);
-                    for(Iterator<String> e = pointNames.iterator(); e.hasNext();) {
-                        currID = e.next();
-                        if(currID.equals(stringID)){
-                            break;
+                    if (pointNames.size() != 0) {
+                        for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
+                            currID = e.next();
+                            if (currID.equals(stringID)) {
+                                break;
+                            }
                         }
                     }
                 } while (stringID.equals(currID));
 
                 //create a PendingIntent to perform service
+                //TODO: setBrightnessTimer breaks app
                 setBrightnessTimer(brightnessToBeSet, selectedTime, randomID);
                 //storing all the things
-                pointNames.add(stringID);
+
+                _pointNames = new HashSet<String>();
+                for (String currWord: pointNames){
+                    _pointNames.add(currWord);
+                }
+                _pointNames.add(stringID);
+
+                pointNames.add(stringID); //broken add
                 SharedPreferences.Editor editStorage = settings.edit();
                 editStorage.remove(alarmNames);
-                editStorage.putStringSet(alarmNames, pointNames);
+                editStorage.putStringSet(alarmNames, _pointNames);
                 editStorage.putString(stringID, Integer.toString(selectedTime));
                 editStorage.putInt(stringID, brightnessToBeSet);
                 //FUTURE: check if .apply() is better than commit
+                //FIXIT TODO: Fix point list not displaying correctly.
                 editStorage.commit();
+
+                //Toast is ready to use!
+                Toast toast = Toast.makeText(mContext, text, duration);
+                toast.show();
+
+                //TODO: check whether to use finish or the following
+                Intent intent = new Intent(getApplicationContext(), BrightTime.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                //finish(); here?
             }
         });
+        //or finish(); here?
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.w(TAG, "App destroyed");
+
+        super.onDestroy();
     }
 
 //    @Override
@@ -141,7 +178,9 @@ public class addBrightPoint extends Activity{
 //        finish();
 //    }
 
+
     public void setBrightnessTimer(int userinputBrightness, int userinputTimeset, int alarmID){
+        alarmgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent brightnessIntent = new Intent(this, BrightTimeService.class);
         String temp = Integer.toString(userinputBrightness);
         brightnessIntent.setData(Uri.parse(temp));
@@ -149,5 +188,19 @@ public class addBrightPoint extends Activity{
                 brightnessIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmgr.setRepeating(AlarmManager.RTC, (userinputTimeset * 1000), AlarmManager.INTERVAL_DAY, setBrightness);
     }
+
+    //move a final string to a mutable string from a Set<String>
+//    public Set<String> stringSetCpy(Set<String> source) {
+//        Set<String> _temp = Collections.emptySet();
+//
+//        if (source.size() != 0) {
+//            for (Iterator<String> e = source.iterator(); e.hasNext(); ) {
+//                String currID = e.next();
+//                _temp.add(currID);
+//            }
+//        }
+//        return _temp;
+//    }
+
 
 }

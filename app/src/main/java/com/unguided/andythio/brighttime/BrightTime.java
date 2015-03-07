@@ -20,8 +20,9 @@ import java.util.Set;
 
 
 /**
- * Created by Andy Thio on 2/26/2015.
+ * Andy Thio & Shawn Lee. Last edit 03/05/15
  */
+
 public class BrightTime extends Activity {
 
     private static final String alarmNames = "alrmnam";
@@ -47,7 +48,7 @@ public class BrightTime extends Activity {
         //Gets stored information to load into ListView mPointList
         SharedPreferences settings = getPreferences(0);
         //Specifically getting time from storage
-        pointNames = settings.getStringSet(alarmNames, temp); //should not initialize to null due to iteration
+        pointNames = settings.getStringSet(alarmNames, temp);
         if(pointNames.size() != 0) {
             for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
                 String temp = e.next();
@@ -62,22 +63,27 @@ public class BrightTime extends Activity {
         final TimeAdapter adapter = new TimeAdapter(this,
                 android.R.layout.simple_list_item_1, pointTimes);
         mPointList.setAdapter(adapter);
-    }
 
-    @Override
-    public void onResume(){
-        //adds button for adding more points
         Button addPoint = (Button) findViewById(R.id.addbrighttimepoint);
         //Listens for button to be clicked then moves to add point screen
         addPoint.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                Intent addPointIntent = new Intent(BrightTime.this, addBrightPoint.class);
-                startActivity(addPointIntent);
+//                Intent addPointIntent = new Intent(BrightTime.this, addBrightPoint.class);
+//                startActivity(addPointIntent);
+            Intent intent = new Intent(getApplicationContext(), addBrightPoint.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             }
         });
     }
-}
 
+//    @Override
+//    public void onResume(){
+//        //adds button for adding more points
+//        super.onResume();
+//
+//    }
+}
 
     class TimeAdapter extends ArrayAdapter<String> {
 

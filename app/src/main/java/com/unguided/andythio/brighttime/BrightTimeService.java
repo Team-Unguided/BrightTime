@@ -9,8 +9,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * Created by Andy Thio on 3/3/2015.
+ * Andy Thio & Shawn Lee. Last edit 03/05/15
  */
+
 public class BrightTimeService extends IntentService
 {
 
