@@ -26,6 +26,11 @@
 
         <service android:name=".BrightTimeService" />
 
+        <activity android:name=".DummyBrightnessActivity"
+            android:taskAffinity="com.antonc.phone_schedule.Dummy"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+
     </application>
 
 </manifest>

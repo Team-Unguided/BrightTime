@@ -17,7 +17,6 @@ public class BrightTimeService extends IntentService
 
     //Content resolver used as a handle to the system's settings
     private ContentResolver cResolver;
-    private Window window;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -38,13 +37,13 @@ public class BrightTimeService extends IntentService
                 System.SCREEN_BRIGHTNESS_MODE_MANUAL);
         //Set the system brightness using the brightness variable value
         System.putInt(cResolver, System.SCREEN_BRIGHTNESS, brightness);
-        //Get the current window attributes.
-        WindowManager.LayoutParams params = window.getAttributes();
-        //Set the brightness of this window.
+        //Set the brightness of this windows
         float newBrightness = (brightness / (float) 255);
-        params.screenBrightness = newBrightness < 0.1 ? 0.1f : newBrightness;
-        //Apply attribute changes to this window.
-        window.setAttributes(params);
+        // Apply brightness by creating a dummy activity
+        Intent intent = new Intent(getBaseContext(), DummyBrightnessActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("brightness value", newBrightness);
+        getApplication().startActivity(intent);
 
 //        try {
 //            IHardwareService hardware = IHardwareService.Stub.asInterface(
