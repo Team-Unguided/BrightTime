@@ -140,7 +140,7 @@ public class addBrightPoint extends Activity{
                 }
                 _pointNames.add(stringID);
 
-                pointNames.add(stringID); //broken add
+                //pointNames.add(stringID); //broken add
                 SharedPreferences.Editor editStorage = settings.edit();
                 editStorage.remove(alarmNames);
                 editStorage.putStringSet(alarmNames, _pointNames);
@@ -156,7 +156,7 @@ public class addBrightPoint extends Activity{
 
                 //TODO: check whether to use finish or the following
                 Intent intent = new Intent(getApplicationContext(), BrightTime.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 //finish(); here?
             }

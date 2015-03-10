@@ -34,6 +34,7 @@ public class BrightTime extends Activity {
     private List<String> pointTimes = Collections.emptyList();
     private Set<String> temp = Collections.emptySet();
     private static Context mContext;
+    StableArrayAdapter adapter;
 
     public static Context getContext() {
         return mContext;
@@ -76,7 +77,7 @@ public class BrightTime extends Activity {
             list.add(arrPointNames[i]);
         }
         // sets the adaptor to a modified array adaptor
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+        adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
         mPointList.setAdapter(adapter);
 //        final TimeAdapter adapter = new TimeAdapter(this,
@@ -108,18 +109,26 @@ public class BrightTime extends Activity {
 //                Intent addPointIntent = new Intent(BrightTime.this, addBrightPoint.class);
 //                startActivity(addPointIntent);
             Intent intent = new Intent(getApplicationContext(), addBrightPoint.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             }
         });
     }
 
-//    @Override
-//    public void onResume(){
-//        //adds button for adding more points
-//        super.onResume();
-//
-//    }
+    @Override
+    public void onResume(){
+        //adds button for adding more points
+        super.onResume();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        pointNames = settings.getStringSet(alarmNames, temp);
+
+
+//        String[] arrPointNames = pointNames.toArray(new String[pointNames.size()]);
+//        adapter.clear();
+//        adapter.addAll(arrPointNames);
+//        adapter.notifyDataSetChanged();
+    }
+
     private class StableArrayAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
