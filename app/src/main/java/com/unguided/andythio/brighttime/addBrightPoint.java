@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -109,7 +110,7 @@ public class addBrightPoint extends Activity{
                 //Need alarmNames, which can be stored as alarm id
                 //Time they are set to
                 //Brightness they are set to
-                SharedPreferences settings = getPreferences(0);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
                 pointNames = settings.getStringSet(alarmNames, temp);
 
                 //generate a random id so as not to overwrite links
@@ -181,10 +182,10 @@ public class addBrightPoint extends Activity{
 
     public void setBrightnessTimer(int userinputBrightness, int userinputTimeset, int alarmID){
         alarmgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        Intent brightnessIntent = new Intent(this, BrightTimeService.class);
+        Intent brightnessIntent = new Intent(addBrightPoint.this, BrightTimeService.class);
         String temp = Integer.toString(userinputBrightness);
         brightnessIntent.setData(Uri.parse(temp));
-        PendingIntent setBrightness = PendingIntent.getService(this,alarmID,
+        PendingIntent setBrightness = PendingIntent.getService(addBrightPoint.this,alarmID,
                 brightnessIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmgr.setRepeating(AlarmManager.RTC, (userinputTimeset * 1000), AlarmManager.INTERVAL_DAY, setBrightness);
     }

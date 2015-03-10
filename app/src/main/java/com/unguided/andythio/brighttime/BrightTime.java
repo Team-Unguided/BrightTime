@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +33,11 @@ public class BrightTime extends Activity {
     private Set<String> pointNames = Collections.emptySet();
     private List<String> pointTimes = Collections.emptyList();
     private Set<String> temp = Collections.emptySet();
+    private static Context mContext;
+
+    public static Context getContext() {
+        return mContext;
+    }
 
     /* TODO:
         * Listen for addbrightimepoint button
@@ -47,8 +53,9 @@ public class BrightTime extends Activity {
         //loads Overlay
         setContentView(R.layout.bright_time);
         final ListView mPointList = (ListView) findViewById(R.id.pointlist);
+        mContext = getApplicationContext();
         //Gets stored information to load into ListView mPointList
-        SharedPreferences settings = getPreferences(0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         //Specifically getting time from storage
         //TODO: modify to array
         pointNames = settings.getStringSet(alarmNames, temp);
