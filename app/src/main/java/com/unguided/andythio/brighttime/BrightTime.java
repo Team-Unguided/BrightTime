@@ -7,11 +7,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,26 +46,54 @@ public class BrightTime extends Activity {
 
         //loads Overlay
         setContentView(R.layout.bright_time);
-
+        final ListView mPointList = (ListView) findViewById(R.id.pointlist);
         //Gets stored information to load into ListView mPointList
         SharedPreferences settings = getPreferences(0);
         //Specifically getting time from storage
+        //TODO: modify to array
         pointNames = settings.getStringSet(alarmNames, temp);
-        if(pointNames.size() != 0) {
-            for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
-                String temp = e.next();
-                //possibly fix this one, use parse that is
-                pointTimes.add(settings.getString(temp, "-1"));
-            }
-        }
+        String[] arrPointNames = pointNames.toArray(new String[pointNames.size()]);
+//        if(pointNames.size() != 0) {
+//            for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
+//                String temp = e.next();
+//                //possibly fix this one, use parse that is
+//                pointTimes.add(settings.getString(temp, "-1"));
+//            }
+//        }
 
         //creates the adaptor...still not sure what it does
         //FUTURE: need to change adaptor to support clicking? that way they can edit points
-        ListView mPointList = (ListView) findViewById(R.id.pointlist);
-        final TimeAdapter adapter = new TimeAdapter(this,
-                android.R.layout.simple_list_item_1, pointTimes);
-        mPointList.setAdapter(adapter);
 
+        final ArrayList<String> list = new ArrayList<String>();
+        for(int i = 0; i < arrPointNames.length; ++i){
+            list.add(arrPointNames[i]);
+        }
+        // sets the adaptor to a modified array adaptor
+        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+                android.R.layout.simple_list_item_1, list);
+        mPointList.setAdapter(adapter);
+//        final TimeAdapter adapter = new TimeAdapter(this,
+//                android.R.layout.simple_list_item_1, pointTimes);
+//        mPointList.setAdapter(adapter);
+        mPointList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //TODO:change the click action to bring you to an edit screen
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                final String item = (String) parent.getItemAtPosition(position);
+                view.animate().setDuration(2000).alpha(0)
+                        .withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                list.remove(item);
+                                adapter.notifyDataSetChanged();
+                                view.setAlpha(1);
+                                //TODO: while it's delete to click, delete it in alarm manager
+                            }
+                        });
+            }
+
+        });
         Button addPoint = (Button) findViewById(R.id.addbrighttimepoint);
         //Listens for button to be clicked then moves to add point screen
         addPoint.setOnClickListener(new View.OnClickListener(){
@@ -83,6 +113,30 @@ public class BrightTime extends Activity {
 //        super.onResume();
 //
 //    }
+    private class StableArrayAdapter extends ArrayAdapter<String> {
+
+        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+
+        public StableArrayAdapter(Context context, int textViewResourceId,
+                                  List<String> objects) {
+            super(context, textViewResourceId, objects);
+            for (int i = 0; i < objects.size(); ++i) {
+                mIdMap.put(objects.get(i), i);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            String item = getItem(position);
+            return mIdMap.get(item);
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+    }
 }
 
     class TimeAdapter extends ArrayAdapter<String> {
@@ -92,8 +146,8 @@ public class BrightTime extends Activity {
         public TimeAdapter(Context context, int textViewResourceId,
                                   List<String> objects) {
             super(context, textViewResourceId,objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
+            //for (int i = 0; i < objects.size(); ++i) {
+                mIdMap.put("testing!!", 1);
+            //}
         }
 }
