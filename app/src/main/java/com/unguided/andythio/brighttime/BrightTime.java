@@ -75,7 +75,7 @@ public class BrightTime extends Activity {
 
         final ArrayList<String> list = new ArrayList<String>();
         for(int i = 0; i < arrPointNames.length; ++i){
-            list.add(arrPointNames[i]);
+            list.add(settings.getString(arrPointNames[i],"Error: Unable to Retrieve Point"));
         }
         // sets the adaptor to a modified array adaptor
         adapter = new StableArrayAdapter(this,

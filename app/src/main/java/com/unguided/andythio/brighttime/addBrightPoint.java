@@ -150,7 +150,18 @@ public class addBrightPoint extends Activity{
                 SharedPreferences.Editor editStorage = settings.edit();
                 editStorage.remove(alarmNames);
                 editStorage.putStringSet(alarmNames, _pointNames);
-                editStorage.putString(stringID, Integer.toString((brightnessTime.getCurrentHour() * 60 + brightnessTime.getCurrentMinute()) * 60));
+                int hourSet = brightnessTime.getCurrentHour();
+                int minuteSet = brightnessTime.getCurrentMinute();
+                if(hourSet == 0)
+                    editStorage.putString(stringID,"12:"+minuteSet+" am");
+                else if(hourSet < 12) {
+                    editStorage.putString(stringID,
+                            Integer.toString(hourSet) + ":" + minuteSet + " am");
+                }
+                else{
+                    editStorage.putString(stringID,
+                            Integer.toString((hourSet % 12)+1)+":"+minuteSet+" pm");
+                }
                 editStorage.putInt(stringID, brightnessToBeSet);
                 //FUTURE: check if .apply() is better than commit
                 //FIXIT TODO: Fix point list not displaying correctly.
