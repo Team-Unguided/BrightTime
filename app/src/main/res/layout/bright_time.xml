@@ -10,16 +10,30 @@
         android:id="@+id/pointlist"
         android:layout_gravity="center_horizontal" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <FrameLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Bright Time Point"
+        <ImageButton
             android:id="@+id/addbrighttimepoint"
-            android:layout_gravity="bottom" />
-    </LinearLayout>
+            android:tint="@android:color/white"
+            android:background="@drawable/oval_ripple"
+            android:elevation="@dimen/elevation_low"
+            android:layout_width="@dimen/round_button_diameter"
+            android:layout_height="@dimen/round_button_diameter"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="@dimen/add_button_margin"
+            android:layout_marginEnd="@dimen/add_button_margin"
+            android:src="@android:drawable/ic_input_add"
+            android:stateListAnimator="@anim/button_elevation" />
+
+        <!--<Button-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Add Bright Time Point"-->
+            <!--android:id="@+id/addbrighttimepoint"-->
+            <!--android:layout_gravity="bottom" />-->
+    </FrameLayout>
 </LinearLayout>

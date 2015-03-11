@@ -13,11 +13,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 //import android.R;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -104,8 +106,12 @@ public class addBrightPoint extends Activity{
         confirmAdd.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 //set up the service from the other file that we made.
-                int selectedTime = (brightnessTime.getCurrentHour() * 60
-                        + brightnessTime.getCurrentMinute()) *60*1000;
+//                int selectedTime = (brightnessTime.getCurrentHour() * 60
+//                        + brightnessTime.getCurrentMinute()) *60;
+                Calendar selectedTime = Calendar.getInstance();
+
+                selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
+                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
                 //store info in preference
                 //Need alarmNames, which can be stored as alarm id
                 //Time they are set to
@@ -144,7 +150,7 @@ public class addBrightPoint extends Activity{
                 SharedPreferences.Editor editStorage = settings.edit();
                 editStorage.remove(alarmNames);
                 editStorage.putStringSet(alarmNames, _pointNames);
-                editStorage.putString(stringID, Integer.toString(selectedTime));
+                editStorage.putString(stringID, Integer.toString((brightnessTime.getCurrentHour() * 60 + brightnessTime.getCurrentMinute()) * 60));
                 editStorage.putInt(stringID, brightnessToBeSet);
                 //FUTURE: check if .apply() is better than commit
                 //FIXIT TODO: Fix point list not displaying correctly.
@@ -180,14 +186,14 @@ public class addBrightPoint extends Activity{
 //    }
 
 
-    public void setBrightnessTimer(int userinputBrightness, int userinputTimeset, int alarmID){
+    public void setBrightnessTimer(int userinputBrightness, Calendar userinputTimeset, int alarmID){
         alarmgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent brightnessIntent = new Intent(addBrightPoint.this, BrightTimeService.class);
         String temp = Integer.toString(userinputBrightness);
         brightnessIntent.setData(Uri.parse(temp));
         PendingIntent setBrightness = PendingIntent.getService(addBrightPoint.this,alarmID,
                 brightnessIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmgr.setRepeating(AlarmManager.RTC, (userinputTimeset * 1000), AlarmManager.INTERVAL_DAY, setBrightness);
+        alarmgr.setRepeating(AlarmManager.RTC, userinputTimeset.getTimeInMillis(), AlarmManager.INTERVAL_DAY, setBrightness);
     }
 
     //move a final string to a mutable string from a Set<String>

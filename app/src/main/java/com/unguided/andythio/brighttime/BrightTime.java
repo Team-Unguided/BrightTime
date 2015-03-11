@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.io.File;
@@ -78,7 +79,7 @@ public class BrightTime extends Activity {
         }
         // sets the adaptor to a modified array adaptor
         adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
+                R.layout.settinglist, list);
         mPointList.setAdapter(adapter);
 //        final TimeAdapter adapter = new TimeAdapter(this,
 //                android.R.layout.simple_list_item_1, pointTimes);
@@ -102,7 +103,7 @@ public class BrightTime extends Activity {
             }
 
         });
-        Button addPoint = (Button) findViewById(R.id.addbrighttimepoint);
+        ImageButton addPoint = (ImageButton) findViewById(R.id.addbrighttimepoint);
         //Listens for button to be clicked then moves to add point screen
         addPoint.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {

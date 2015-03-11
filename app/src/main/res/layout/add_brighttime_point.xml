@@ -2,8 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-
-
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="149dp"
@@ -15,7 +13,7 @@
             android:id="@+id/seekBrightness"
             android:layout_gravity="center" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/BrightnessText"
@@ -23,7 +21,7 @@
             android:text="Set Brightness Level" />
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirm"
             android:id="@+id/confirmAdd"
