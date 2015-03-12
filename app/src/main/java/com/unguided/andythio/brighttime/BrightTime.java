@@ -28,6 +28,8 @@ import java.util.Set;
  */
 
 public class BrightTime extends Activity {
+    static final String SETTINGS_HOUR = "hour";
+    static final String SETTINGS_MINUTES = "minute";
 
     private static final String alarmNames = "alrmnam";
 
@@ -75,7 +77,8 @@ public class BrightTime extends Activity {
 
         final ArrayList<String> list = new ArrayList<String>();
         for(int i = 0; i < arrPointNames.length; ++i){
-            list.add(settings.getString(arrPointNames[i],"Error: Unable to Retrieve Point"));
+            list.add(settings.getString(arrPointNames[i] + SETTINGS_HOUR,
+                        "Error: Unable to Retrieve Point"));
         }
         // sets the adaptor to a modified array adaptor
         adapter = new StableArrayAdapter(this,

@@ -31,6 +31,8 @@ import java.util.Set;
  */
 
 public class addBrightPoint extends Activity{
+    static final String SETTINGS_HOUR = "hour";
+    static final String SETTINGS_MINUTES = "minute";
 
     private static final String alarmNames = "alrmnam";
     private static final String TAG = "addBrightPoint";
@@ -153,13 +155,13 @@ public class addBrightPoint extends Activity{
                 int hourSet = brightnessTime.getCurrentHour();
                 int minuteSet = brightnessTime.getCurrentMinute();
                 if(hourSet == 0)
-                    editStorage.putString(stringID,"12:"+minuteSet+" am");
+                    editStorage.putString(stringID + SETTINGS_HOUR,"12:"+minuteSet+" am");
                 else if(hourSet < 12) {
-                    editStorage.putString(stringID,
+                    editStorage.putString(stringID + SETTINGS_HOUR,
                             Integer.toString(hourSet) + ":" + minuteSet + " am");
                 }
                 else{
-                    editStorage.putString(stringID,
+                    editStorage.putString(stringID + SETTINGS_HOUR,
                             Integer.toString((hourSet % 12)+1)+":"+minuteSet+" pm");
                 }
                 editStorage.putInt(stringID, brightnessToBeSet);
