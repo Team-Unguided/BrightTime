@@ -8,6 +8,7 @@ import android.graphics.Outline;
 import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewOutlineProvider;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,7 +83,7 @@ public class BrightTime extends Activity {
         //Specifically getting time from storage
         //TODO: modify to array
         pointNames = settings.getStringSet(alarmNames, temp);
-        String[] arrPointNames = pointNames.toArray(new String[pointNames.size()]);
+        final String[] arrPointNames = pointNames.toArray(new String[pointNames.size()]);
 //        if(pointNames.size() != 0) {
 //            for (Iterator<String> e = pointNames.iterator(); e.hasNext(); ) {
 //                String temp = e.next();
@@ -95,35 +97,71 @@ public class BrightTime extends Activity {
 
         final ArrayList<String> list = new ArrayList<String>();
         for(int i = 0; i < arrPointNames.length; ++i){
-            list.add(settings.getString(arrPointNames[i] + SETTINGS_HOUR,
-                        "Error: Unable to Retrieve Point"));
+            String displayTime;
+            boolean isPM = false;
+            int displayHour = settings.getInt((arrPointNames[i] + SETTINGS_HOUR), -1);
+            int displayMin = settings.getInt((arrPointNames[i] + SETTINGS_MINUTES), -1);
+            if(displayHour == -1 || displayMin == -1)
+                list.add("Error: Unable to Retrieve Point");
+            else{
+                if(displayHour == 0)
+                    displayTime = "12:";
+                else if(displayHour < 12)
+                    displayTime = displayHour + ":";
+                else{
+                    displayTime = ((displayHour % 12)+1)+":";
+                    isPM = true;
+                }
+                if(isPM){
+                    if(displayMin < 10)
+                        list.add(displayTime + "0" + displayMin + " pm");
+                    else
+                        list.add(displayTime + displayMin + " pm");
+                }
+                else{
+                    if(displayMin < 10)
+                        list.add(displayTime + "0" + displayMin + " am");
+                    else
+                        list.add(displayTime + displayMin + " am");
+                }
+            }
+
+            //list.add(settings.getString(arrPointNames[i] + SETTINGS_HOUR,
+            //"Error: Unable to Retrieve Point"));
         }
         // sets the adaptor to a modified array adaptor
         adapter = new StableArrayAdapter(this,
                 R.layout.settinglist, list);
         mPointList.setAdapter(adapter);
-//        final TimeAdapter adapter = new TimeAdapter(this,
-//                android.R.layout.simple_list_item_1, pointTimes);
-//        mPointList.setAdapter(adapter);
+
+        //final TimeAdapter adapter = new TimeAdapter(this,
+        //android.R.layout.simple_list_item_1, pointTimes);
+        //mPointList.setAdapter(adapter);
+
         mPointList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //TODO:change the click action to bring you to an edit screen
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
+            int position, long id) {
+                final int tisPosition = position;
                 final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                                //TODO: while it's delete to click, delete it in alarm manager
-                            }
-                        });
+                view.animate().setDuration(500).alpha(1)
+                .withEndAction(
+                new Runnable() {
+                @Override
+                    public void run() {
+                        Intent editIntent = new Intent(getApplicationContext(), editPoint.class);
+                        editIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        editIntent.putExtra("stringID", arrPointNames[tisPosition]);
+                        startActivity(editIntent);
+                        adapter.notifyDataSetChanged();
+                        view.setAlpha(1);
+                        //TODO: while it's delete to click, delete it in alarm manager
+                    }
+                });
             }
-
         });
+
         //ImageButton addPoint = (ImageButton) findViewById(R.id.addbrighttimepoint);
         //Listens for button to be clicked then moves to add point screen
         addPoint.setOnClickListener(new View.OnClickListener(){

@@ -31,6 +31,10 @@
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
+        <activity android:name=".editPoint"
+            android:parentActivityName="com.unguided.andythio.brighttime.BrightTime" >
+        </activity>
+
     </application>
 
 </manifest>

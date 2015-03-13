@@ -114,6 +114,7 @@ public class addBrightPoint extends Activity{
 
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
                 selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.SECOND,0);
                 //store info in preference
                 //Need alarmNames, which can be stored as alarm id
                 //Time they are set to
@@ -154,19 +155,20 @@ public class addBrightPoint extends Activity{
                 editStorage.putStringSet(alarmNames, _pointNames);
                 int hourSet = brightnessTime.getCurrentHour();
                 int minuteSet = brightnessTime.getCurrentMinute();
-                if(hourSet == 0)
-                    editStorage.putString(stringID + SETTINGS_HOUR,"12:"+minuteSet+" am");
-                else if(hourSet < 12) {
-                    editStorage.putString(stringID + SETTINGS_HOUR,
-                            Integer.toString(hourSet) + ":" + minuteSet + " am");
-                }
-                else{
-                    editStorage.putString(stringID + SETTINGS_HOUR,
-                            Integer.toString((hourSet % 12)+1)+":"+minuteSet+" pm");
-                }
+                editStorage.putInt(stringID + SETTINGS_HOUR,hourSet);
+                editStorage.putInt(stringID + SETTINGS_MINUTES, minuteSet);
+//                if(hourSet == 0)
+//                    editStorage.putString(stringID + SETTINGS_HOUR,"12:"+minuteSet+" am");
+//                else if(hourSet < 12) {
+//                    editStorage.putString(stringID + SETTINGS_HOUR,
+//                            Integer.toString(hourSet) + ":" + minuteSet + " am");
+//                }
+//                else{
+//                    editStorage.putString(stringID + SETTINGS_HOUR,
+//                            Integer.toString((hourSet % 12)+1)+":"+minuteSet+" pm");
+//                }
                 editStorage.putInt(stringID, brightnessToBeSet);
                 //FUTURE: check if .apply() is better than commit
-                //FIXIT TODO: Fix point list not displaying correctly.
                 editStorage.commit();
 
                 //Toast is ready to use!

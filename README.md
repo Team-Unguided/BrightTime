@@ -6,11 +6,17 @@ BrightTime `com.unguided.BrightTime`
 
 ### Usage
 `BrightTime` is a simple-to-use application. Installation onto the device is automatic.
-* To use the application, tap on the `+`, the circular pink button at the center bottom of the screen.
-* Select your desired time and brightness.
-* Once finished, click the `Confirm` button.
-* You will return to the main screen where your added "point" will appear on the list by time.
-* Your screen brightness will now change according to the brightness and times you have set.
+* To create a "point" (a preset):
+    - tap on the `+`, the circular pink button at the center bottom of the screen.
+    - Select your desired time and brightness.
+    - Once finished, click the `Confirm` button. **Point added!**
+    - You will return to the main screen where your added point will appear on the list by time.
+    - Your screen brightness will now change according to the brightness and times you have set.
+* To edit/delete a "point":
+    - tap on the point you have created previously.
+    - delete the point altogether using the `Delete` button.
+    - modify any settings for that point and press `Confirm` to save changes.
+    - to discard and go back, tap your `Back` button at either the top or bottom of your screen.
 
 Short Demo Below:
 
@@ -18,10 +24,14 @@ Short Demo Below:
 " target="_blank"><img src="http://img.youtube.com/vi/i8_A7HRHG_8/0.jpg" 
 alt="Timed brightness option in Settings (In Development)" width="240" height="180" border="10" /></a>
 
-### Future Implmentations
+### Future Implementations
 * Add an `Edit Point` page, where time, days-of-week, and brightness can be edited.
+	- **[NEW (03/13/15)]** Created `Edit Point` page by tapping on the point in the list. Allows users to delete or modify their settings for that point.
 * Add `Delete Point` option
+    - **[NEW (03/13/15)]** See above~
+* Allow users to `Undo` changes or deletion of their points.
 * Clean up UI, icon, and code to fit [Google's design guidelines](http://www.google.com/design/spec/material-design/introduction.html) and [Code style guidelines](https://source.android.com/source/code-style.html). 
+* Allow users to `Undo` changes or deletion of their points.
 
 ### Sources / Links
 [CyanogenMod Settings App](https://github.com/CyanogenMod/android_packages_apps_Settings)
