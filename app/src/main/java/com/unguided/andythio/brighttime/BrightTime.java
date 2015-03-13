@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Outline;
+import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,6 +40,14 @@ public class BrightTime extends Activity {
     private List<String> pointTimes = Collections.emptyList();
     private Set<String> temp = Collections.emptySet();
     private static Context mContext;
+
+    private ImageButton addPoint;
+    private ImageButton mLeftButton;
+    private ImageButton mRightButton;
+
+    private static final float FAB_DEPTH = 20f;
+    private static final int UNKNOWN_COLOR_ID = 0;
+
     StableArrayAdapter adapter;
 
     public static Context getContext() {
@@ -50,12 +61,19 @@ public class BrightTime extends Activity {
         * figure out what needs to be in onResume() and not in onCreate()
         * Clean up and
      */
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         //loads Overlay
         setContentView(R.layout.bright_time);
+
+        addPoint = (ImageButton) findViewById(R.id.addbrighttimepoint);
+        addPoint.setTranslationZ(FAB_DEPTH);
+        mLeftButton = (ImageButton) findViewById(R.id.left_button);
+        mRightButton = (ImageButton) findViewById(R.id.right_button);
+
         final ListView mPointList = (ListView) findViewById(R.id.pointlist);
         mContext = getApplicationContext();
         //Gets stored information to load into ListView mPointList
@@ -106,7 +124,7 @@ public class BrightTime extends Activity {
             }
 
         });
-        ImageButton addPoint = (ImageButton) findViewById(R.id.addbrighttimepoint);
+        //ImageButton addPoint = (ImageButton) findViewById(R.id.addbrighttimepoint);
         //Listens for button to be clicked then moves to add point screen
         addPoint.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
