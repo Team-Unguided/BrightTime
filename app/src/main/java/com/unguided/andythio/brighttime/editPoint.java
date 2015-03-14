@@ -46,6 +46,9 @@ public class editPoint extends Activity {
         final TimePicker brightnessTime = (TimePicker) findViewById(R.id.timePickerEdit);
         brightnessTime.setIs24HourView(false);
 
+        brightnessTime.setCurrentHour(settings.getInt(alarmID + SETTINGS_HOUR, -1));
+        brightnessTime.setCurrentMinute(settings.getInt(alarmID + SETTINGS_MINUTES, -1));
+
         Button confirmEdit = (Button) findViewById(R.id.comfirmEdit);
         Button removeEdit = (Button) findViewById(R.id.rmPoint);
 
