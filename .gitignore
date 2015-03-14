@@ -1,6 +1,49 @@
+#generated application files
+*.apk
+*.ap_
+
+#from Dalvik VM
+*.dex
+
+#Java class files
+*.class
+
+#generated directories
+bin/
+build/
+gen/
+
+#local config files
+local.properties
+project.properties
+
+#Windows thumbnail db
+Thumbs.db
+
+#OSX files
+*.DS_Store
+
+#Eclipse project files
+.classpath
+.project
+.settings/
+
+#Android Studio / Intellij
+.idea/
 .gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
+*.iml
+*.iws
+
+#Maven
+log/
+target/
+
+#Proguard
+proguard/
+
+#etc.
+*~
+*.swo
+*.swp
+*.log
+out/
