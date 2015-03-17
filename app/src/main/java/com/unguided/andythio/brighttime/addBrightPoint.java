@@ -113,7 +113,7 @@ public class addBrightPoint extends Activity{
                 Calendar selectedTime = Calendar.getInstance();
 
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
-                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.HOUR_OF_DAY, brightnessTime.getCurrentHour());
                 selectedTime.set(Calendar.SECOND,0);
                 //store info in preference
                 //Need alarmNames, which can be stored as alarm id

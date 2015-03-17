@@ -79,7 +79,7 @@ public class editPoint extends Activity {
             public void onClick(View v){
                 Calendar selectedTime = Calendar.getInstance();
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
-                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.HOUR_OF_DAY, brightnessTime.getCurrentHour());
                 selectedTime.set(Calendar.SECOND,0);
 
                 removeBrightnessTimer(brightnessToBeSet, Integer.parseInt(alarmID));
@@ -101,7 +101,7 @@ public class editPoint extends Activity {
             public void onClick(View v){
                 Calendar selectedTime = Calendar.getInstance();
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
-                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.HOUR_OF_DAY, brightnessTime.getCurrentHour());
                 selectedTime.set(Calendar.SECOND,0);
 
                 removeBrightnessTimer(brightnessToBeSet, Integer.parseInt(alarmID));

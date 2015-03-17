@@ -1,12 +1,16 @@
 package com.unguided.andythio.brighttime;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Outline;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.transition.Transition;
 import android.util.Log;
@@ -21,8 +25,11 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -39,9 +46,10 @@ public class BrightTime extends Activity {
     private static final String alarmNames = "alrmnam";
 
     private Set<String> pointNames = Collections.emptySet();
-    private List<String> pointTimes = Collections.emptyList();
     private Set<String> temp = Collections.emptySet();
     private static Context mContext;
+
+    private AlarmManager alarmgr;
 
     private ImageButton addPoint;
     private ImageButton mLeftButton;
@@ -49,6 +57,8 @@ public class BrightTime extends Activity {
 
     private static final float FAB_DEPTH = 20f;
     private static final int UNKNOWN_COLOR_ID = 0;
+
+    private boolean doubleBackToExitPressedOnce = false;
 
     StableArrayAdapter adapter;
 
@@ -70,6 +80,13 @@ public class BrightTime extends Activity {
 
         //loads Overlay
         setContentView(R.layout.bright_time);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if(settings.getBoolean("isFirstRun",true)){
+            setDefaultPoints();
+            SharedPreferences.Editor editInitial = settings.edit();
+            editInitial.putBoolean("isFirstRun", false);
+            editInitial.commit();
+        }
 
         addPoint = (ImageButton) findViewById(R.id.addbrighttimepoint);
         addPoint.setTranslationZ(FAB_DEPTH);
@@ -79,7 +96,7 @@ public class BrightTime extends Activity {
         final ListView mPointList = (ListView) findViewById(R.id.pointlist);
         mContext = getApplicationContext();
         //Gets stored information to load into ListView mPointList
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+
         //Specifically getting time from storage
         //TODO: modify to array
         pointNames = settings.getStringSet(alarmNames, temp);
@@ -104,12 +121,12 @@ public class BrightTime extends Activity {
             if(displayHour == -1 || displayMin == -1)
                 list.add("Error: Unable to Retrieve Point");
             else{
-                if(displayHour == 0)
+                if(displayHour % 12 == 0)
                     displayTime = "12:";
                 else if(displayHour < 12)
                     displayTime = displayHour + ":";
                 else{
-                    displayTime = ((displayHour % 12)+1)+":";
+                    displayTime = ((displayHour % 12))+":";
                     isPM = true;
                 }
                 if(isPM){
@@ -189,6 +206,25 @@ public class BrightTime extends Activity {
 //        adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            finish();
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
     private class StableArrayAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
@@ -213,6 +249,42 @@ public class BrightTime extends Activity {
         }
 
     }
+
+    //Creates default points for when app first is installed
+    private void setDefaultPoints(){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Set<String> initialPoints = new HashSet<String>(Arrays.asList( "0", "1", "2" ,"3" , "4"));
+        String[] initPoints = {"0","1","2","3","4"};
+        int[] initialTimeHOUR = {6,8,12,2,7};
+        int[] initialsetBrightness = {64,153,255,128,51};
+
+        SharedPreferences.Editor editInitial = settings.edit();
+
+        for(int i = 0; i < 5 ; ++i){
+            Calendar setTime = Calendar.getInstance();
+            setTime.set(Calendar.HOUR_OF_DAY, initialTimeHOUR[i]);
+            setTime.set(Calendar.MINUTE, 0);
+            setTime.set(Calendar.SECOND, 0);
+
+            setBrightnessTimer(initialsetBrightness[i], setTime, Integer.parseInt(initPoints[i]));
+
+            editInitial.putInt(initPoints[i], initialsetBrightness[i]);
+            editInitial.putInt(initPoints[i] + SETTINGS_HOUR, initialTimeHOUR[i]);
+            editInitial.putInt(initPoints[i] + SETTINGS_MINUTES, 0);
+            editInitial.putStringSet(alarmNames, initialPoints);
+        }
+        editInitial.commit();
+    }
+
+    public void setBrightnessTimer(int userinputBrightness, Calendar userinputTimeset, int alarmID){
+        alarmgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        Intent brightnessIntent = new Intent(BrightTime.this, BrightTimeService.class);
+        String temp = Integer.toString(userinputBrightness);
+        brightnessIntent.setData(Uri.parse(temp));
+        PendingIntent setBrightness = PendingIntent.getService(BrightTime.this,alarmID,
+                brightnessIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmgr.setRepeating(AlarmManager.RTC, userinputTimeset.getTimeInMillis(), AlarmManager.INTERVAL_DAY, setBrightness);
+    }
 }
 
     class TimeAdapter extends ArrayAdapter<String> {
@@ -226,4 +298,5 @@ public class BrightTime extends Activity {
                 mIdMap.put("testing!!", 1);
             //}
         }
+
 }
