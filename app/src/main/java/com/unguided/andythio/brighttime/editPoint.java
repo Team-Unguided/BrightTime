@@ -109,11 +109,13 @@ public class editPoint extends Activity {
                 Set<String> pointNames = settings.getStringSet(alarmNames,temp );
 
 
-                Set<String> _pointNames = Collections.emptySet();
-                for (String currWord: pointNames){
-                    if(!currWord.equals(alarmID))
-                        _pointNames.add(currWord);
-                }
+                Set<String> _pointNames = pointNames;
+                _pointNames.remove(alarmID);
+//                for (String currWord: pointNames){
+//                    if(!currWord.equals(alarmID))
+//                        _pointNames.add(currWord);
+//                }//
+
 
                 SharedPreferences.Editor editStorage = settings.edit();
                 editStorage.remove(alarmNames);

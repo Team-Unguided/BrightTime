@@ -47,3 +47,4 @@ proguard/
 *.swp
 *.log
 out/
+*.txt

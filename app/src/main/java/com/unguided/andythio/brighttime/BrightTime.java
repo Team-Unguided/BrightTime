@@ -80,7 +80,8 @@ public class BrightTime extends Activity {
 
         //loads Overlay
         setContentView(R.layout.bright_time);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if(settings.getBoolean("isFirstRun",true)){
             setDefaultPoints();
             SharedPreferences.Editor editInitial = settings.edit();
@@ -121,8 +122,11 @@ public class BrightTime extends Activity {
             if(displayHour == -1 || displayMin == -1)
                 list.add("Error: Unable to Retrieve Point");
             else{
-                if(displayHour % 12 == 0)
+                if(displayHour % 12 == 0){
+                    if(displayHour != 0)
+                        isPM = true;
                     displayTime = "12:";
+                }
                 else if(displayHour < 12)
                     displayTime = displayHour + ":";
                 else{
@@ -169,6 +173,7 @@ public class BrightTime extends Activity {
                     public void run() {
                         Intent editIntent = new Intent(getApplicationContext(), editPoint.class);
                         editIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        editIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         editIntent.putExtra("stringID", arrPointNames[tisPosition]);
                         startActivity(editIntent);
                         adapter.notifyDataSetChanged();
@@ -210,7 +215,11 @@ public class BrightTime extends Activity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            finish();
+            this.finish();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
 
         this.doubleBackToExitPressedOnce = true;
@@ -252,10 +261,10 @@ public class BrightTime extends Activity {
 
     //Creates default points for when app first is installed
     private void setDefaultPoints(){
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> initialPoints = new HashSet<String>(Arrays.asList( "0", "1", "2" ,"3" , "4"));
         String[] initPoints = {"0","1","2","3","4"};
-        int[] initialTimeHOUR = {6,8,12,2,7};
+        int[] initialTimeHOUR = {6,8,12,14,19};
         int[] initialsetBrightness = {64,153,255,128,51};
 
         SharedPreferences.Editor editInitial = settings.edit();
@@ -271,13 +280,13 @@ public class BrightTime extends Activity {
             editInitial.putInt(initPoints[i], initialsetBrightness[i]);
             editInitial.putInt(initPoints[i] + SETTINGS_HOUR, initialTimeHOUR[i]);
             editInitial.putInt(initPoints[i] + SETTINGS_MINUTES, 0);
-            editInitial.putStringSet(alarmNames, initialPoints);
         }
+        editInitial.putStringSet(alarmNames, initialPoints);
         editInitial.commit();
     }
 
     public void setBrightnessTimer(int userinputBrightness, Calendar userinputTimeset, int alarmID){
-        alarmgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        alarmgr = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent brightnessIntent = new Intent(BrightTime.this, BrightTimeService.class);
         String temp = Integer.toString(userinputBrightness);
         brightnessIntent.setData(Uri.parse(temp));
