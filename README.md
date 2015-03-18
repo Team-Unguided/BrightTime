@@ -1,13 +1,23 @@
 BrightTime
 =============================================================================
-BrightTime will allow users to adjust their screen brightness settings according to the time of day. It is tailored to users who have rigid schedules throughout the week and provide more control of display settings than the existing Adaptive Brightness option. This will hopefully increase battery life and provide more functionality to device displays (which consumes the majority of battery life). 
+BrightTime adjusts your Android screen's brightness based on the time of day.
+This [improves your phone's battery life](http://www.wired.com/2013/04/does-decreased-brightness-increase-your-phones-battery-life/).
+Other projects like [Backlight!](http://www.phoeniix.com/android/backlight) make it easier to manually adjust your brightness settings to save power, but BrightTime completely automates this process.
+Your phone will know the optimal brightness setting and adjust it for you.
+The default install is suitable for most users, but advanced users can thoroughly customize the schedule. 
 
 ![BrightTime Header](http://shawnjzlee.me/img/brighttime.gif)
 
-### Usage
-`BrightTime` is a simple-to-use application. Installation onto the device is automatic. Feel free to download it on **Android 5.0.2+** [here](http://shawnjzlee.me/BrightTime-alpha001r1-5.0.1.apk)
+`BrightTime` is easy to use.
+Just [click here](http://shawnjzlee.me/BrightTime-alpha001r1-5.0.1.apk) to install.
+Currently, BrightTime requires **Android 5.0.2+**.
 
-* To create a "point" (a preset):
+### Adjusting the schedule
+
+BrightTime comes with default settings that should be good enough for most users.
+Advanced users can follow these directions to change your settings.
+
+* To create a "point" (a preset [I don't know what this means]):
     - tap on the `+`, the circular pink button at the center bottom of the screen.
     - Select your desired time and brightness.
     - Once finished, click the `Confirm` button. **Point added!**
@@ -27,19 +37,7 @@ Short Demo Below:
 " target="_blank"><img src="http://img.youtube.com/vi/qFep5CybKuw/0.jpg" 
 alt="Timed brightness option in Settings (In Development)" width="240" height="180" border="5" /></a>
 
-### What's New
-* Added an `Edit Preset` activity, where time and brightness can be edited or deleted.
-* Included default presets when application is first installed on phone for ease-of-use.
-
-### Future Implementations
+### Future Goals
 * Allow users to `Undo` changes or deletion of their points.
 * Clean up UI, icon, and code to fit [Google's design guidelines](http://www.google.com/design/spec/material-design/introduction.html) and [Code style guidelines](https://source.android.com/source/code-style.html). 
-
-### Links
-[Does Decreased Brightness Increase Your Phone's Battery Life | WIRED](http://www.wired.com/2013/04/does-decreased-brightness-increase-your-phones-battery-life/) - Increased brightness settings does decrease battery life, as seen through many tests within the article.
-
-[Things Draining Phone Battery - Business Insider](http://www.businessinsider.com/sc/things-draining-phone-battery-2014-5) - One of the biggest reasons - according to this article - that battery life is drained is due to increased brightness settings.
-
-[Google DeskClock App](https://android.googlesource.com/platform/packages/apps/DeskClock/+/android-5.1.0_r1) - A good reference for starting timer-based applications by using their alarm clock activity.
-
-[Backlight! Open Source Project](http://www.phoeniix.com/android/backlight) - An application that attempted to save power by making it easy for users to cycle through different brightness levels by clicking an icon. 
+* Support more Android versions.
