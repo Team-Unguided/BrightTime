@@ -30,9 +30,11 @@ Thumbs.db
 
 #Android Studio / Intellij
 .idea/
+gradle/
 .gradle
 *.iml
 *.iws
+gradlew
 
 #Maven
 log/
@@ -40,11 +42,10 @@ target/
 
 #Proguard
 proguard/
-
 #etc.
 *~
 *.swo
 *.swp
 *.log
+*.bat
 out/
-*.txt

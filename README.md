@@ -9,7 +9,7 @@ The default install is suitable for most users, but advanced users can thoroughl
 ![BrightTime Header](http://shawnjzlee.me/img/brighttime.gif)
 
 `BrightTime` is easy to use.
-Just [click here](http://shawnjzlee.me/BrightTime-alpha001r1-5.0.1.apk) to install.
+Just [click here](http://d-h.st/Ddo) to install.
 Currently, BrightTime requires **Android 5.0.2+**.
 
 ### Adjusting the schedule
