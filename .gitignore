@@ -1,51 +1,33 @@
-#generated application files
+# built application files
 *.apk
 *.ap_
 
-#from Dalvik VM
+# files for the dex VM
 *.dex
 
-#Java class files
+# Java class files
 *.class
 
-#generated directories
+# generated files
 bin/
-build/
 gen/
 
-#local config files
+# Local configuration file (sdk path, etc)
 local.properties
-project.properties
 
-#Windows thumbnail db
-Thumbs.db
-
-#OSX files
-*.DS_Store
-
-#Eclipse project files
+# Eclipse project files
 .classpath
 .project
-.settings/
 
-#Android Studio / Intellij
+# Android Studio
 .idea/
-gradle/
 .gradle
+/*/local.properties
+/*/out
+/*/*/build
+/*/*/production
 *.iml
 *.iws
-gradlew
-
-#Maven
-log/
-target/
-
-#Proguard
-proguard/
-#etc.
+*.ipr
 *~
-*.swo
 *.swp
-*.log
-*.bat
-out/

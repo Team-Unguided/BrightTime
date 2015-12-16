@@ -1,7 +1,22 @@
+<!-- <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="teamunguided.brighttime">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+    </application>
+
+</manifest>
+-->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionName="1.0"
     android:versionCode="1"
-    package="com.unguided.andythio.brighttime">
+    package="teamunguided.brighttime">
 
     <uses-sdk android:maxSdkVersion="1" />
 
@@ -21,7 +36,7 @@
         </activity>
 
         <activity android:name=".addBrightPoint"
-            android:parentActivityName="com.unguided.andythio.brighttime.BrightTime" >
+            android:parentActivityName="teamunguided.brighttime.BrightTime" >
         </activity>
 
         <service android:name=".BrightTimeService" />
@@ -32,7 +47,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <activity android:name=".editPoint"
-            android:parentActivityName="com.unguided.andythio.brighttime.BrightTime" >
+            android:parentActivityName="teamunguided.brighttime.BrightTime" >
         </activity>
 
     </application>

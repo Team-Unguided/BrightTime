@@ -1,4 +1,5 @@
-package com.unguided.andythio.brighttime;
+package teamunguided.brighttime;
+
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -6,38 +7,25 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Outline;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.transition.Transition;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-
-/**
- * Andy Thio & Shawn Lee. Last edit 03/05/15
- */
 
 public class BrightTime extends Activity {
     static final String SETTINGS_HOUR = "hour";
@@ -163,24 +151,24 @@ public class BrightTime extends Activity {
             //TODO:change the click action to bring you to an edit screen
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
-            int position, long id) {
+                                    int position, long id) {
                 final int tisPosition = position;
                 final String item = (String) parent.getItemAtPosition(position);
                 view.animate().setDuration(500).alpha(1)
-                .withEndAction(
-                new Runnable() {
-                @Override
-                    public void run() {
-                        Intent editIntent = new Intent(getApplicationContext(), editPoint.class);
-                        editIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        editIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                        editIntent.putExtra("stringID", arrPointNames[tisPosition]);
-                        startActivity(editIntent);
-                        adapter.notifyDataSetChanged();
-                        view.setAlpha(1);
-                        //TODO: while it's delete to click, delete it in alarm manager
-                    }
-                });
+                        .withEndAction(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent editIntent = new Intent(getApplicationContext(), editPoint.class);
+                                        editIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        editIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        editIntent.putExtra("stringID", arrPointNames[tisPosition]);
+                                        startActivity(editIntent);
+                                        adapter.notifyDataSetChanged();
+                                        view.setAlpha(1);
+                                        //TODO: while it's delete to click, delete it in alarm manager
+                                    }
+                                });
             }
         });
 
@@ -190,9 +178,9 @@ public class BrightTime extends Activity {
             public void onClick(View v) {
 //                Intent addPointIntent = new Intent(BrightTime.this, addBrightPoint.class);
 //                startActivity(addPointIntent);
-            Intent intent = new Intent(getApplicationContext(), addBrightPoint.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), addBrightPoint.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
     }
@@ -296,16 +284,16 @@ public class BrightTime extends Activity {
     }
 }
 
-    class TimeAdapter extends ArrayAdapter<String> {
+class TimeAdapter extends ArrayAdapter<String> {
 
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
 
-        public TimeAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId,objects);
-            //for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put("testing!!", 1);
-            //}
-        }
+    public TimeAdapter(Context context, int textViewResourceId,
+                       List<String> objects) {
+        super(context, textViewResourceId,objects);
+        //for (int i = 0; i < objects.size(); ++i) {
+        mIdMap.put("testing!!", 1);
+        //}
+    }
 
 }

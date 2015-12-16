@@ -1,4 +1,4 @@
-package com.unguided.andythio.brighttime;
+package teamunguided.brighttime;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -16,12 +16,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Andy Thio on 3/13/2015.
- */
 public class editPoint extends Activity {
     static final String SETTINGS_HOUR = "hour";
     static final String SETTINGS_MINUTES = "minute";
