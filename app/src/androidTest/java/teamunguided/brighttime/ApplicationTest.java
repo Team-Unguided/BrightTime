@@ -1,4 +1,4 @@
-package com.unguided.andythio.brighttime;
+package teamunguided.brighttime;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

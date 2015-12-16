@@ -1,4 +1,4 @@
-package com.unguided.andythio.brighttime;
+package teamunguided.brighttime;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -8,16 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
-//import android.R;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -26,9 +23,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
-/**
- * Andy Thio & Shawn Lee. Last edit 03/05/15
- */
+//import android.R;
 
 public class addBrightPoint extends Activity{
     static final String SETTINGS_HOUR = "hour";
@@ -113,7 +108,7 @@ public class addBrightPoint extends Activity{
                 Calendar selectedTime = Calendar.getInstance();
 
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
-                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.HOUR_OF_DAY, brightnessTime.getCurrentHour());
                 selectedTime.set(Calendar.SECOND,0);
                 //store info in preference
                 //Need alarmNames, which can be stored as alarm id

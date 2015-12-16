@@ -1,16 +1,12 @@
-package com.unguided.andythio.brighttime;
+package teamunguided.brighttime;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Handler;
+import android.os.Message;
 import android.view.WindowManager;
 
-
-/**
- * Created by Andy Thio on 3/9/2015.
- */
 public class DummyBrightnessActivity extends Activity {
 
     private static final int DELAYED_MESSAGE = 1;

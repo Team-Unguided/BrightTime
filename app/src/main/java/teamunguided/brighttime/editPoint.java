@@ -1,4 +1,4 @@
-package com.unguided.andythio.brighttime;
+package teamunguided.brighttime;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -16,12 +16,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Andy Thio on 3/13/2015.
- */
 public class editPoint extends Activity {
     static final String SETTINGS_HOUR = "hour";
     static final String SETTINGS_MINUTES = "minute";
@@ -79,7 +75,7 @@ public class editPoint extends Activity {
             public void onClick(View v){
                 Calendar selectedTime = Calendar.getInstance();
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
-                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.HOUR_OF_DAY, brightnessTime.getCurrentHour());
                 selectedTime.set(Calendar.SECOND,0);
 
                 removeBrightnessTimer(brightnessToBeSet, Integer.parseInt(alarmID));
@@ -101,7 +97,7 @@ public class editPoint extends Activity {
             public void onClick(View v){
                 Calendar selectedTime = Calendar.getInstance();
                 selectedTime.set(Calendar.MINUTE, brightnessTime.getCurrentMinute());
-                selectedTime.set(Calendar.HOUR, brightnessTime.getCurrentHour());
+                selectedTime.set(Calendar.HOUR_OF_DAY, brightnessTime.getCurrentHour());
                 selectedTime.set(Calendar.SECOND,0);
 
                 removeBrightnessTimer(brightnessToBeSet, Integer.parseInt(alarmID));
@@ -109,11 +105,13 @@ public class editPoint extends Activity {
                 Set<String> pointNames = settings.getStringSet(alarmNames,temp );
 
 
-                Set<String> _pointNames = Collections.emptySet();
-                for (String currWord: pointNames){
-                    if(!currWord.equals(alarmID))
-                        _pointNames.add(currWord);
-                }
+                Set<String> _pointNames = pointNames;
+                _pointNames.remove(alarmID);
+//                for (String currWord: pointNames){
+//                    if(!currWord.equals(alarmID))
+//                        _pointNames.add(currWord);
+//                }//
+
 
                 SharedPreferences.Editor editStorage = settings.edit();
                 editStorage.remove(alarmNames);
